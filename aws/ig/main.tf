@@ -35,7 +35,6 @@ FILEDUMP
         echo "Waiting for other instance group update to finish"
         sleep $(((1 + RANDOM % 10)+10))
       done
-      echo 'locked' > ${path.root}/.kops-ig-lock
 
       ${var.nodeup-url-env} AWS_SDK_LOAD_CONFIG=1 AWS_PROFILE=${var.aws-profile} kops --state=s3://${var.kops-state-bucket} create -f ${path.module}/${var.cluster-name}-${var.name}-ig-spec.yml
 
@@ -71,7 +70,6 @@ FILEDUMP
         echo "Waiting for other instance group update to finish"
         sleep $(((1 + RANDOM % 10)+10))
       done
-      echo 'locked' > ${path.root}/.kops-ig-lock
 
       ${var.nodeup-url-env} AWS_SDK_LOAD_CONFIG=1 AWS_PROFILE=${var.aws-profile} kops --state=s3://${var.kops-state-bucket} \
         replace -f ${path.module}/${var.cluster-name}-${var.name}-ig-spec.yml
