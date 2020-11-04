@@ -65,7 +65,7 @@ EOF
 }
 
 data "template_file" "master-additional-sgs" {
-  count = var.master-additional-sgs-count
+  count = length(var.master-additional-sgs)
 
   template = "  - $${sg-id}"
 
@@ -107,7 +107,7 @@ EOF
 }
 
 data "template_file" "bastion-additional-sgs" {
-  count = var.bastion-additional-sgs-count
+  count = length(var.bastion-additional-sgs)
 
   template = "  - $${sg-id}"
 
@@ -197,7 +197,7 @@ data "template_file" "minion-subnets" {
 }
 
 data "template_file" "minion-additional-sgs" {
-  count = var.minion-additional-sgs-count
+  count = length(var.minion-additional-sgs)
 
   template = "  - $${sg-id}"
 

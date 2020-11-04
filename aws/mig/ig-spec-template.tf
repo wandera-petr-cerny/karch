@@ -35,7 +35,7 @@ EOF
 }
 
 data "template_file" "additional-sgs" {
-  count = var.additional-sgs-count
+  count = length(var.additional-sgs)
 
   template = "  - $${sg-id}"
 

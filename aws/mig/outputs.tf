@@ -6,3 +6,11 @@ output "created" {
 output "asg-name" {
   value = element(data.aws_autoscaling_groups.ig.names, 0)
 }
+
+output "spec-template" {
+  value = yamldecode(data.template_file.ig-spec.rendered)
+}
+
+output "spec-var" {
+  value = local.ig_spec
+}
