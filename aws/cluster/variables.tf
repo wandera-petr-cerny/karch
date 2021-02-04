@@ -62,18 +62,28 @@ variable "cluster-name" {
   type        = string
 }
 
-variable "kube-dns-domain" {
-  type        = string
-  description = "Domain enforced in our cluster by kube-dns (default: cluster.local)."
-
-  default = "cluster.local"
+variable "kube-dns" {
+  type = object({
+    domain           = string
+    provider         = string
+    node-local-cache = bool
+  })
+  default = {
+    domain           = "cluster.local"
+    provider         = "CoreDNS"
+    node-local-cache = true
+  }
 }
 
-variable "kube-dns-provider" {
-  type        = string
-  description = "Kubernetes dns (service discovery) provider (KubeDNS|CoreDNS)"
-
-  default = "CoreDNS"
+variable "coredns" {
+  type = object({
+    image    = string
+    corefile = string
+  })
+  default = {
+    image    = null
+    corefile = null
+  }
 }
 
 # Kops & Kubernetes

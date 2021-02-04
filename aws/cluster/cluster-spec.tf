@@ -24,7 +24,7 @@ locals {
       }
       cloudLabels      = length(keys(var.cloud-labels)) == 0 ? null : var.cloud-labels
       cloudProvider    = "aws"
-      clusterDNSDomain = var.kube-dns-domain
+      clusterDNSDomain = var.kube-dns.domain
       configBase       = "s3://${var.kops-state-bucket}/${var.cluster-name}"
       configStore      = "s3://${var.kops-state-bucket}/${var.cluster-name}"
       dnsZone          = var.cluster-name
@@ -92,10 +92,14 @@ locals {
         featureGates                                  = var.featuregates-flags
       }
       kubeDNS = {
-        domain   = var.kube-dns-domain
-        replicas = 2
-        serverIP = "100.64.0.10"
-        provider = var.kube-dns-provider
+        domain           = var.kube-dns.domain
+        serverIP         = "100.64.0.10"
+        provider         = var.kube-dns.provider
+        coreDNSImage     = var.coredns.image
+        externalCoreFile = var.coredns.corefile
+        nodeLocalDNS = {
+          enabled = var.kube-dns.node-local-cache
+        }
       }
       kubeProxy = {
         clusterCIDR      = "100.96.0.0/11"
@@ -121,7 +125,7 @@ locals {
         cgroupRoot                = "/"
         cloudProvider             = "aws"
         clusterDNS                = "100.64.0.10"
-        clusterDomain             = var.kube-dns-domain
+        clusterDomain             = var.kube-dns.domain
         enableDebuggingHandlers   = true
         evictionHard              = var.kubelet-eviction-flag
         hostnameOverride          = "@aws"
@@ -149,7 +153,7 @@ locals {
         cgroupRoot              = "/"
         cloudProvider           = "aws"
         clusterDNS              = "100.64.0.10"
-        clusterDomain           = var.kube-dns-domain
+        clusterDomain           = var.kube-dns.domain
         enableDebuggingHandlers = true
         evictionHard            = "memory.available<100Mi,nodefs.available<10%,nodefs.inodesFree<5%,imagefs.available<10%,imagefs.inodesFree<5%"
         hostnameOverride        = "@aws"
